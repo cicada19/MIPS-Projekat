@@ -36,7 +36,7 @@ void interrupt(){
   if(T0IF_bit)                               // Delay od 25ms
   {
       counter++;
-      if(counter>=40*60*5)                  // Delay od 25ms*x
+      if(counter>=40*60*60)                  // Delay od 25ms*x
       {
       counter = 0;
       flag = 1;
@@ -67,13 +67,13 @@ unsigned short Check_Response() {
   TMR1H = 0;                                  // Reset Timer1
   TMR1L = 0;
   TMR1ON_bit = 1;                             // Enable Timer1 module
-  while(!DHT11_PIN && TMR1L < 100);           // Wait until DHT11_PIN becomes high (cheking of 80µs low time response)
-  if(TMR1L > 99)                              // If response time > 99µS  ==> Response error
+  while(!DHT11_PIN && TMR1L < 100);           // Wait until DHT11_PIN becomes high (cheking of 80¬µs low time response)
+  if(TMR1L > 99)                              // If response time > 99¬µS  ==> Response error
     return 0;                                 // Return 0 (Device has a problem with response)
   else {    TMR1H = 0;                        // Reset Timer1
     TMR1L = 0;
-    while(DHT11_PIN && TMR1L < 100);          // Wait until DHT11_PIN becomes low (cheking of 80µs high time response)
-    if(TMR1L > 99)                            // If response time > 99µS  ==> Response error
+    while(DHT11_PIN && TMR1L < 100);          // Wait until DHT11_PIN becomes low (cheking of 80¬µs high time response)
+    if(TMR1L > 99)                            // If response time > 99¬µS  ==> Response error
       return 0;                               // Return 0 (Device has a problem with response)
     else
       return 1;                               // Return 1 (response OK)
@@ -87,13 +87,13 @@ unsigned short Read_Data(unsigned short* dht_data) {
     TMR1H = 0;                                // Reset Timer1
     TMR1L = 0;
     while(!DHT11_PIN)                         // Wait until DHT11_PIN becomes high
-      if(TMR1L > 100) {                       // If low time > 100  ==>  Time out error (Normally it takes 50µs)
+      if(TMR1L > 100) {                       // If low time > 100  ==>  Time out error (Normally it takes 50¬µs)
         return 1;
       }
     TMR1H = 0;                                // Reset Timer1
     TMR1L = 0;
     while(DHT11_PIN)                          // Wait until DHT11_PIN becomes low
-      if(TMR1L > 100) {                       // If high time > 100  ==>  Time out error (Normally it takes 26-28µs for 0 and 70µs for 1)
+      if(TMR1L > 100) {                       // If high time > 100  ==>  Time out error (Normally it takes 26-28¬µs for 0 and 70¬µs for 1)
         return 1;                             // Return 1 (timeout error)
       }
      if(TMR1L > 50)                           // If high time > 50  ==>  Sensor sent 1
@@ -169,12 +169,12 @@ void  intToString(int broj, char* buffer){
 }
 
 void initUSART(){
-  TXEN_bit  = 1;           // Omogucavamo slanje podataka podeöavanjem navedenog bita TXSTA registra
-  SPEN_bit  = 1;           // Omogucen rad serijskog porta. Pinovi RX/DT i TX/CK se automatski konfiguriöu kao ulazni i izlazne (RCSTA registar).
+  TXEN_bit  = 1;           // Omogucavamo slanje podataka pode≈°avanjem navedenog bita TXSTA registra
+  SPEN_bit  = 1;           // Omogucen rad serijskog porta. Pinovi RX/DT i TX/CK se automatski konfiguri≈°u kao ulazni i izlazne (RCSTA registar).
 
   SYNC_bit  = 0;           // Konfigurisemo da modul radi u asinhronom rezimu ( 1- sinhroni)
   BRG16_bit = 0;          // Setovanjem bita BRG16 bita u BAUDCTL registru odreduje se da li ce BRG raditi kao 8-bitni ili 16-bitni tajmer.
-  BRGH_bit  = 1;           // 1 ñ EUSART radi sa velikim brzinama prenosa , 0 - malim
+  BRGH_bit  = 1;           // 1 ‚Äì EUSART radi sa velikim brzinama prenosa , 0 - malim
 
   SPBRG     = 25;           // Postavljamo vrijednost registra SPBRG (iz tabela)koji zavisi od prethodna 3 bita
   // Tj. zavisi od toga da li je sinhroni/asinhroni, 8/16 bitni, i da li modul radi na velikoj/maloj brzini, takodje vrijednosti boudratea
